@@ -1,0 +1,12 @@
+{
+  "name": "help-desk-mern",
+  "version": "1.0.0",
+  "description": "Help Desk MERN App",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "keywords": [],
+  "author": "Arpan P",
+  "license": "MIT"
+}
