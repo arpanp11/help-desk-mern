@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === 'production') {
   );
 } else {
   app.get('/', (req, res) => {
-    res.status(200).json({ message: 'Welcome to the Help Desk API' });
+    res.status(200).json({ message: 'Welcome to the Help Desk' });
   });
 }
 
