@@ -2,7 +2,7 @@
   "name": "help-desk-mern",
   "version": "1.0.0",
   "description": "Help Desk MERN App",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
