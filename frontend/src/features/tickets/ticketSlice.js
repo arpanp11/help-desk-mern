@@ -74,6 +74,27 @@ export const getTicket = createAsyncThunk(
   }
 );
 
+// close ticket
+export const closeTicket = createAsyncThunk(
+  'tickets/close',
+  async (ticketId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await ticketService.closeTicket(ticketId, token);
+    } catch (error) {
+      // error from the backend
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const ticketSlice = createSlice({
   name: 'ticket',
   initialState,
@@ -82,6 +103,7 @@ export const ticketSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // createTicket
       .addCase(createTicket.pending, (state) => {
         state.isLoading = true;
       })
@@ -95,6 +117,7 @@ export const ticketSlice = createSlice({
         // playload value is comming from thunkAPI.rejectWithValue(message);
         state.message = action.payload;
       })
+      // getTickets
       .addCase(getTickets.pending, (state) => {
         state.isLoading = true;
       })
@@ -110,6 +133,7 @@ export const ticketSlice = createSlice({
         // playload value is comming from thunkAPI.rejectWithValue(message);
         state.message = action.payload;
       })
+      // getTicket
       .addCase(getTicket.pending, (state) => {
         state.isLoading = true;
       })
@@ -124,6 +148,16 @@ export const ticketSlice = createSlice({
         state.isError = true;
         // playload value is comming from thunkAPI.rejectWithValue(message);
         state.message = action.payload;
+      })
+      // closeTicket
+      // if you're getting data, pass an action argument
+      .addCase(closeTicket.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.tickets.map((ticket) =>
+          ticket._id === action.payload._id
+            ? (ticket.status = 'closed')
+            : ticket
+        );
       });
   },
 });
